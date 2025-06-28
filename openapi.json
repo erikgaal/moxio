@@ -1,0 +1,1960 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "OTL API",
+        "contact": {
+            "name": "Moxio support",
+            "url": "https:\/\/www.moxio.com\/support",
+            "email": "support@moxio.com"
+        },
+        "version": "1"
+    },
+    "servers": [
+        {
+            "url": "https:\/\/otl.prorail.nl\/otl\/api\/rest\/v1\/",
+            "description": "OTL"
+        }
+    ],
+    "paths": {
+        "\/": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/RootData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/collecties\/{collectie}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "collectie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/CollectieJsonData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/bestanden\/{bestand}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "bestand",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*\/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/kandidaatversies": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/KandidaatversiesData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/kandidaatversies\/{kandidaatversie}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "kandidaatversie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/KandidaatversieJsonData"
+                                }
+                            },
+                            "application\/n-triples": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NTriplesData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/kandidaatversies\/{kandidaatversie}\/sparql": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "kandidaatversie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/sparql-results+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/SparqlData"
+                                }
+                            },
+                            "application\/sparql-results+xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text\/csv": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text\/tab-separated-values": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text\/turtle": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application\/n-triples": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application\/rdf+xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/QueryParameterNotFoundError"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    },
+                    "406": {
+                        "$ref": "#\/components\/responses\/UnsupportedAcceptHeaderError"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/DatasetNotFoundError"
+                    }
+                }
+            }
+        },
+        "\/kandidaatversies\/{kandidaatversie}\/datavormen": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "kandidaatversie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/DatavormenData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/kandidaatversies\/{kandidaatversie}\/datavormen\/{datavorm}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "kandidaatversie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "datavorm",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/n-triples": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NTriplesData"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/DatavormJsonData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/kandidaatversies\/{kandidaatversie}\/concepten": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "kandidaatversie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-eigenschap",
+                        "in": "uitspraak-eigenschap",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-vulling",
+                        "in": "uitspraak-vulling",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ConceptenData"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/QueryParameterNotFoundError"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/kandidaatversies\/{kandidaatversie}\/concepten\/{concept}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "kandidaatversie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-eigenschap",
+                        "in": "uitspraak-eigenschap",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-vulling",
+                        "in": "uitspraak-vulling",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "concept",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ConceptJsonData"
+                                }
+                            },
+                            "application\/n-triples": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NTriplesData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/kandidaatversies\/{kandidaatversie}\/concepten\/{concept}\/eigenschappen": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "kandidaatversie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-eigenschap",
+                        "in": "uitspraak-eigenschap",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-vulling",
+                        "in": "uitspraak-vulling",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "concept",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/EigenschappenData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    },
+                    "400": {
+                        "content": {
+                            "text\/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/vigerende-versie": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/VersieJsonData"
+                                }
+                            },
+                            "application\/n-triples": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NTriplesData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/vigerende-versie\/sparql": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/sparql-results+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/SparqlData"
+                                }
+                            },
+                            "application\/sparql-results+xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text\/csv": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text\/tab-separated-values": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text\/turtle": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application\/n-triples": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application\/rdf+xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/QueryParameterNotFoundError"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    },
+                    "406": {
+                        "$ref": "#\/components\/responses\/UnsupportedAcceptHeaderError"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/DatasetNotFoundError"
+                    }
+                }
+            }
+        },
+        "\/vigerende-versie\/datavormen": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/DatavormenData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/vigerende-versie\/datavormen\/{datavorm}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "datavorm",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/n-triples": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NTriplesData"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/DatavormJsonData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/vigerende-versie\/concepten": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "uitspraak-eigenschap",
+                        "in": "uitspraak-eigenschap",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-vulling",
+                        "in": "uitspraak-vulling",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ConceptenData"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/QueryParameterNotFoundError"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/vigerende-versie\/concepten\/{concept}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "uitspraak-eigenschap",
+                        "in": "uitspraak-eigenschap",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-vulling",
+                        "in": "uitspraak-vulling",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "concept",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ConceptJsonData"
+                                }
+                            },
+                            "application\/n-triples": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NTriplesData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/vigerende-versie\/concepten\/{concept}\/eigenschappen": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "uitspraak-eigenschap",
+                        "in": "uitspraak-eigenschap",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-vulling",
+                        "in": "uitspraak-vulling",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "concept",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/EigenschappenData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    },
+                    "400": {
+                        "content": {
+                            "text\/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/versies": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/VersiesData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/versies\/{versie}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "versie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/VersieJsonData"
+                                }
+                            },
+                            "application\/n-triples": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NTriplesData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/versies\/{versie}\/sparql": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "versie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/sparql-results+json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/SparqlData"
+                                }
+                            },
+                            "application\/sparql-results+xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text\/csv": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text\/tab-separated-values": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text\/turtle": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application\/ld+json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application\/n-triples": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application\/rdf+xml": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/QueryParameterNotFoundError"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    },
+                    "406": {
+                        "$ref": "#\/components\/responses\/UnsupportedAcceptHeaderError"
+                    },
+                    "500": {
+                        "$ref": "#\/components\/responses\/DatasetNotFoundError"
+                    }
+                }
+            }
+        },
+        "\/versies\/{versie}\/datavormen": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "versie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/DatavormenData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/versies\/{versie}\/datavormen\/{datavorm}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "versie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "datavorm",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/n-triples": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NTriplesData"
+                                }
+                            },
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/DatavormJsonData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/versies\/{versie}\/concepten": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "versie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-eigenschap",
+                        "in": "uitspraak-eigenschap",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-vulling",
+                        "in": "uitspraak-vulling",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ConceptenData"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#\/components\/responses\/QueryParameterNotFoundError"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/versies\/{versie}\/concepten\/{concept}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "versie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-eigenschap",
+                        "in": "uitspraak-eigenschap",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-vulling",
+                        "in": "uitspraak-vulling",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "concept",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ConceptJsonData"
+                                }
+                            },
+                            "application\/n-triples": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/NTriplesData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "\/versies\/{versie}\/concepten\/{concept}\/eigenschappen": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "versie",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-eigenschap",
+                        "in": "uitspraak-eigenschap",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "uitspraak-vulling",
+                        "in": "uitspraak-vulling",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "concept",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/EigenschappenData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/UnauthorizedError"
+                    },
+                    "400": {
+                        "content": {
+                            "text\/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "EigenschappenData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "eigenschapspad",
+                                "bereiken",
+                                "kardinaliteit",
+                                "geraakt door datavormen",
+                                "gekwalificeerde kardinaliteiten",
+                                "meta-eigenschappen"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "eigenschapspad": {
+                                    "type": "array",
+                                    "items": {
+                                        "required": [
+                                            "IRI",
+                                            "naam"
+                                        ],
+                                        "type": "object",
+                                        "properties": {
+                                            "IRI": {
+                                                "type": "string"
+                                            },
+                                            "naam": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "bereiken": {
+                                    "type": "array",
+                                    "items": {
+                                        "required": [
+                                            "IRI",
+                                            "naam"
+                                        ],
+                                        "type": "object",
+                                        "properties": {
+                                            "IRI": {
+                                                "type": "string"
+                                            },
+                                            "naam": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "kardinaliteit": {
+                                    "type": "object",
+                                    "properties": {
+                                        "min": {
+                                            "type": "number"
+                                        },
+                                        "max": {
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                "geraakt door datavormen": {
+                                    "type": "array",
+                                    "items": {
+                                        "required": [
+                                            "IRI"
+                                        ],
+                                        "type": "object",
+                                        "properties": {
+                                            "IRI": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "gekwalificeerde kardinaliteiten": {
+                                    "type": "array",
+                                    "items": {
+                                        "required": [
+                                            "bereiken",
+                                            "kardinaliteit",
+                                            "geraakt door datavormen"
+                                        ],
+                                        "type": "object",
+                                        "properties": {
+                                            "bereiken": {
+                                                "type": "array",
+                                                "items": {
+                                                    "required": [
+                                                        "IRI",
+                                                        "naam"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "IRI": {
+                                                            "type": "string"
+                                                        },
+                                                        "naam": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "kardinaliteit": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "min": {
+                                                        "type": "number"
+                                                    },
+                                                    "max": {
+                                                        "type": "number"
+                                                    }
+                                                }
+                                            },
+                                            "geraakt door datavormen": {
+                                                "type": "array",
+                                                "items": {
+                                                    "required": [
+                                                        "IRI"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "IRI": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "meta-eigenschappen": {
+                                    "type": "array",
+                                    "items": {
+                                        "required": [
+                                            "iri",
+                                            "geraakt door datavormen",
+                                            "vullingen"
+                                        ],
+                                        "type": "object",
+                                        "properties": {
+                                            "iri": {
+                                                "type": "string"
+                                            },
+                                            "geraakt door datavormen": {
+                                                "type": "array",
+                                                "items": {
+                                                    "required": [
+                                                        "IRI"
+                                                    ],
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "IRI": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "vullingen": {
+                                                "type": "array",
+                                                "items": {
+                                                    "oneOf": [
+                                                        {
+                                                            "required": [
+                                                                "type",
+                                                                "waarde"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string"
+                                                                },
+                                                                "waarde": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        },
+                                                        {
+                                                            "required": [
+                                                                "type",
+                                                                "concept"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string"
+                                                                },
+                                                                "concept": {
+                                                                    "required": [
+                                                                        "IRI",
+                                                                        "naam"
+                                                                    ],
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "IRI": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "naam": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    ],
+                                                    "discriminator": {
+                                                        "propertyName": "type",
+                                                        "mapping": {
+                                                            "waarde": "#\/components\/schemas\/MetaEigenschapVullingTypeWaardeSchema",
+                                                            "concept": "#\/components\/schemas\/MetaEigenschapVullingTypeConceptSchema"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "MetaEigenschapVullingTypeConceptSchema": {
+                "required": [
+                    "type",
+                    "concept"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "concept": {
+                        "required": [
+                            "IRI",
+                            "naam"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "IRI": {
+                                "type": "string"
+                            },
+                            "naam": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "MetaEigenschapVullingTypeWaardeSchema": {
+                "required": [
+                    "type",
+                    "waarde"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "waarde": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NTriplesData": {
+                "type": "string"
+            },
+            "ConceptJsonData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "required": [
+                            "IRI",
+                            "naam",
+                            "omschrijving",
+                            "meta-eigenschappen",
+                            "afbeeldingen",
+                            "bestanden",
+                            "supertypen",
+                            "subtypen",
+                            "instantie van",
+                            "uitspraken",
+                            "type"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "IRI": {
+                                "type": "string"
+                            },
+                            "naam": {
+                                "type": "string"
+                            },
+                            "omschrijving": {
+                                "type": "string"
+                            },
+                            "meta-eigenschappen": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#\/components\/schemas\/ReferencedMetaEigenschapData"
+                                }
+                            },
+                            "afbeeldingen": {
+                                "type": "array",
+                                "items": {
+                                    "required": [
+                                        "URL",
+                                        "titel",
+                                        "omschrijving",
+                                        "Application URL"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "URL": {
+                                            "type": "string"
+                                        },
+                                        "titel": {
+                                            "type": "string"
+                                        },
+                                        "omschrijving": {
+                                            "type": "string"
+                                        },
+                                        "Application URL": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "deprecated": true
+                            },
+                            "bestanden": {
+                                "type": "array",
+                                "items": {
+                                    "required": [
+                                        "URL",
+                                        "titel",
+                                        "omschrijving",
+                                        "Application URL",
+                                        "type"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "URL": {
+                                            "type": "string"
+                                        },
+                                        "titel": {
+                                            "type": "string"
+                                        },
+                                        "omschrijving": {
+                                            "type": "string"
+                                        },
+                                        "Application URL": {
+                                            "type": "string"
+                                        },
+                                        "type": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "supertypen": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                                }
+                            },
+                            "subtypen": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                                }
+                            },
+                            "instantie van": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                                }
+                            },
+                            "instanties": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                                }
+                            },
+                            "domein van eigenschappen": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                                }
+                            },
+                            "bereik van eigenschappen": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                                }
+                            },
+                            "uitspraken": {
+                                "type": "array",
+                                "items": {
+                                    "required": [
+                                        "predikaat",
+                                        "invullingstype",
+                                        "invulling"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "predikaat": {
+                                            "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                                        },
+                                        "invullingstype": {
+                                            "type": "string"
+                                        },
+                                        "invulling": {
+                                            "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                                        }
+                                    }
+                                }
+                            },
+                            "type": {
+                                "type": "string"
+                            },
+                            "domein": {
+                                "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                            },
+                            "inverse": {
+                                "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                            },
+                            "bereiktype": {
+                                "type": "string"
+                            },
+                            "bereik": {
+                                "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                            },
+                            "datatype": {
+                                "type": "string"
+                            },
+                            "enumeratiewaarden": {
+                                "type": "array"
+                            },
+                            "geometrietype": {
+                                "type": "string"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "ReferencedMetaEigenschapData": {
+                "required": [
+                    "meta-eigenschap",
+                    "waarde"
+                ],
+                "type": "object",
+                "properties": {
+                    "meta-eigenschap": {
+                        "required": [
+                            "IRI"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "IRI": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "waarde": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ReferencedConceptData": {
+                "required": [
+                    "IRI",
+                    "naam"
+                ],
+                "type": "object",
+                "properties": {
+                    "IRI": {
+                        "type": "string"
+                    },
+                    "naam": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ConceptenData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "IRI",
+                                "naam"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "IRI": {
+                                    "type": "string"
+                                },
+                                "naam": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "DatavormJsonData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "required": [
+                            "IRI",
+                            "meta-eigenschappen",
+                            "validatieniveau",
+                            "beoogde concepten"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "IRI": {
+                                "type": "string"
+                            },
+                            "meta-eigenschappen": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#\/components\/schemas\/ReferencedMetaEigenschapData"
+                                }
+                            },
+                            "validatieniveau": {
+                                "enum": [
+                                    "geen",
+                                    "fout",
+                                    "waarschuwing"
+                                ],
+                                "type": "string"
+                            },
+                            "beoogde concepten": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#\/components\/schemas\/ReferencedConceptData"
+                                }
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "DatavormenData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "IRI"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "IRI": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "SparqlData": {
+                "required": [
+                    "head",
+                    "results"
+                ],
+                "type": "object",
+                "properties": {
+                    "head": {
+                        "required": [
+                            "vars"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "vars": {
+                                "type": "array"
+                            }
+                        }
+                    },
+                    "results": {
+                        "required": [
+                            "bindings"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "bindings": {
+                                "type": "array"
+                            }
+                        }
+                    }
+                }
+            },
+            "VersieJsonData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "required": [
+                            "versienummer",
+                            "publicatiedatum",
+                            "toelichting"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "versienummer": {
+                                "type": "string"
+                            },
+                            "publicatiedatum": {
+                                "type": "date"
+                            },
+                            "toelichting": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "VersiesData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "versienummer",
+                                "publicatiedatum",
+                                "toelichting"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "versienummer": {
+                                    "type": "string"
+                                },
+                                "publicatiedatum": {
+                                    "type": "date"
+                                },
+                                "toelichting": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "KandidaatversieJsonData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "required": [
+                            "naam",
+                            "gepland versienummer",
+                            "geplande publicatiedatum"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "naam": {
+                                "type": "string"
+                            },
+                            "gepland versienummer": {
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "geplande publicatiedatum": {
+                                "type": "date",
+                                "nullable": true
+                            }
+                        }
+                    }
+                }
+            },
+            "KandidaatversiesData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "naam",
+                                "gepland versienummer",
+                                "geplande publicatiedatum"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "naam": {
+                                    "type": "string"
+                                },
+                                "gepland versienummer": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "geplande publicatiedatum": {
+                                    "type": "date",
+                                    "nullable": true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "CollectieJsonData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "required": [
+                            "naam",
+                            "collecties"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "naam": {
+                                "type": "string"
+                            },
+                            "concepten": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "RootData": {
+                "required": [
+                    "data"
+                ],
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "required": [
+                            "naam"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "naam": {
+                                "type": "string"
+                            },
+                            "vigerende versie": {
+                                "required": [
+                                    "versienummer",
+                                    "publicatiedatum"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "versienummer": {
+                                        "type": "string"
+                                    },
+                                    "publicatiedatum": {
+                                        "type": "date"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "UnauthorizedError": {
+                "content": {
+                    "text\/html": {
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "QueryParameterNotFoundError": {
+                "content": {
+                    "text\/html": {
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "UnsupportedAcceptHeaderError": {
+                "content": {
+                    "text\/html": {
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "DatasetNotFoundError": {
+                "content": {
+                    "text\/html": {
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "name": "ApiKey {KEY}",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ]
+}
