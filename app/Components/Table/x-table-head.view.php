@@ -1,0 +1,3 @@
+<thead>
+<x-slot/>
+</thead>

@@ -73,3 +73,17 @@ In het ontwerp implementeren we een `ObjectTableView` die de gegevens uit een `O
 Deze query class moet niet verward worden met een database query, maar is een referentie naar een query zoals beschreven in _Command Query Responsibility Segregation_. De taak van deze klasse is om de gegevens uit de `ObjectLibrary` te halen en in een gestructureerde vorm terug te geven.
 
 De gegevens moeten uiteindelijk uit de OTL API worden gehaald, maar door dit netjes te scheiden met een adapter kunnen we ook een andere informatiebron gebruiken.
+
+### Implementatie
+
+Ik heb [Tempest](https://tempestphp.com) als framework gekozen om de app te bouwen. Het is een relatief nieuw type-strict framework dat ik een keer wilde uitproberen. Het doel was om de framework code zo veel mogelijk te scheiden van de domeincode, dus wilde ik geen Laravel gebruiken.
+
+De implementatie volgt het ontwerp zo nauwkeurig mogelijk. Het enige verschil is dat ik uiteindelijk geen `ObjectWithSubtypes` klasse heb gemaakt, maar de gegevens direct uit de `ObjectLibrary` interface heb kunnen halen, zonder extra tussenlaag.
+
+In `ObjectLibraryApiAdapater` gebruik in PHP 8.4 Lazy Objects om de API calls pas te doen als de gegevens daadwerkelijk aangeroepen worden.
+
+### Reflectie
+
+Transitieve subtypes bepalen vereist een API call per object. Dit wordt (te) traag als je alle objecten in een lijst wilt laten zien. De (kortzichtige) oplossing voor nu was om pagination toe te voegen zodat je niet te veel objecten in een keer laadt. Met de veronderstelling dat de gegevens in OTL relatief niet vaak veranderen, zou API caching of een kopie opslaan van de database een betere oplossing zijn.
+
+Ik had niet eerder met Tempest gewerkt, waardoor ik wat meer tijd kwijt was met documentatie er van lezen. Daarnaast, mistte Tempest basisfunctionaliteiten zoals Pagination die mij beprekte in de tijd die beschikbaar had voor de domeincode.

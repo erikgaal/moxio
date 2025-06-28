@@ -24,5 +24,6 @@
     <env name="ENVIRONMENT" value="testing" />
     <env name="BASE_URI" value="" />
     <env name="CACHE" value="null" />
+    <env name="PRORAIL_OTL_APIKEY" value="rQ0dXhYK2/GG0f7dYPt5HRj51BZMiSn5" />
   </php>
 </phpunit>
