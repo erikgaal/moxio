@@ -2,6 +2,34 @@
 
 In deze repository staat de broncode van de opdracht gemaakt voor Moxio.
 
+## Installatie
+
+1. Installeer de benodigdheden met `composer`.
+
+```shell
+composer install
+```
+
+2. Start de ontwikkelserver.
+
+```shell
+php tempest serve
+```
+
+3. Op de interface in een browser.
+
+```shell
+open http://localhost:8000
+```
+
+### Tests
+
+Draai de tests met PHPUnit:
+
+```shell
+composer phpunit
+```
+
 ## Proces
 
 De originele opdracht luidt:
