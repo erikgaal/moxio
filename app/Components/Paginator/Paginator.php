@@ -5,7 +5,6 @@ namespace App\Components\Paginator;
 
 use IteratorAggregate;
 use Traversable;
-use function Tempest\Support\Arr\slice;
 
 final readonly class Paginator implements IteratorAggregate
 {
@@ -21,21 +20,13 @@ final readonly class Paginator implements IteratorAggregate
         iterable $listConcepts,
         int $perPage = 10,
         ?int $currentPage = null,
+        ?int $total = null,
     ) {
         return new self(
             items: $listConcepts,
-            total: iterator_count($listConcepts),
+            total: $total ?? iterator_count($listConcepts),
             perPage: $perPage,
             currentPage: $currentPage,
-        );
-    }
-
-    public function forPage(int $page): iterable
-    {
-        return slice(
-            $this->items,
-            ($page - 1) * $this->perPage,
-            $this->perPage
         );
     }
 
@@ -89,6 +80,6 @@ final readonly class Paginator implements IteratorAggregate
 
     public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->forPage($this->currentPage));
+        return new \ArrayIterator($this->items);
     }
 }

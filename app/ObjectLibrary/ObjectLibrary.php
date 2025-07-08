@@ -3,12 +3,17 @@ declare(strict_types=1);
 
 namespace App\ObjectLibrary;
 
+use GuzzleHttp\Promise\PromiseInterface;
+
 interface ObjectLibrary
 {
     /**
-     * @return list<Concept>
+     * @return PromiseInterface<list<Concept>>
      */
-    public function listConcepts(): array;
+    public function listConcepts(): PromiseInterface;
 
-    public function getConcept(string $iri): Concept;
+    /**
+     * @return PromiseInterface<Concept>
+     */
+    public function getConcept(Iri $iri): PromiseInterface;
 }

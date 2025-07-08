@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace Tests\ObjectLibrary;
 
 use App\ObjectLibrary\Concept;
+use App\ObjectLibrary\ConceptSummary;
+use App\ObjectLibrary\Iri;
+use App\ObjectLibrary\ObjectLibraryGraph;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -13,25 +16,45 @@ class ConceptTest extends TestCase
     public function it_calculates_transitive_dependencies()
     {
         $deeptype = new Concept(
-            iri: 'http://example.com/deeptype',
+            iri: Iri::from('http://example.com/deeptype'),
             naam: 'Deeptype',
             subtypen: [],
         );
 
         $subtype = new Concept(
-            iri: 'http://example.com/subconcept2',
+            iri: Iri::from('http://example.com/subconcept2'),
             naam: 'Subconcept',
-            subtypen: [$deeptype],
+            subtypen: [new ConceptSummary(
+                iri: $deeptype->iri,
+                naam: $deeptype->naam,
+            )],
         );
 
         $root = new Concept(
-            iri: 'http://example.com/subconcept1',
+            iri: Iri::from('http://example.com/subconcept1'),
             naam: 'Concept',
-            subtypen: [$subtype],
+            subtypen: [new ConceptSummary(
+                iri: $subtype->iri,
+                naam: $subtype->naam,
+            )],
         );
 
-        $this->assertEquals([], $deeptype->getTransitiveSubtypes());
-        $this->assertEquals([$deeptype], $subtype->getTransitiveSubtypes());
-        $this->assertEquals([$subtype, $deeptype], $root->getTransitiveSubtypes());
+        $graph = new ObjectLibraryGraph([$deeptype, $subtype, $root]);
+
+        $this->assertEquals([], $graph->getTransitiveSubtypes($deeptype->iri));
+        $this->assertEquals([new ConceptSummary(
+            iri: $deeptype->iri,
+            naam: $deeptype->naam,
+        )], $graph->getTransitiveSubtypes($subtype->iri));
+        $this->assertEquals([
+            new ConceptSummary(
+                iri: $subtype->iri,
+                naam: $subtype->naam,
+            ),
+            new ConceptSummary(
+                iri: $deeptype->iri,
+                naam: $deeptype->naam,
+            ),
+        ], $graph->getTransitiveSubtypes($root->iri));
     }
 }

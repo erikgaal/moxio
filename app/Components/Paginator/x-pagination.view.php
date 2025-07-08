@@ -11,7 +11,7 @@
         </p>
     </div>
     <div class="flex flex-1 justify-between sm:justify-end">
-        <a :if="$paginator->hasPreviousPage()" href="/?page={{ $paginator->getPreviousPage() }}" class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus-visible:outline-offset-0">Previous</a>
-        <a :if="$paginator->hasNextPage()" href="/?page={{ $paginator->getNextPage() }}" class="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus-visible:outline-offset-0">Next</a>
+        <a :if="$paginator->hasPreviousPage()" href="?page={{ $paginator->getPreviousPage() }}" class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus-visible:outline-offset-0">Previous</a>
+        <a :if="$paginator->hasNextPage()" href="?page={{ $paginator->getNextPage() }}" class="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus-visible:outline-offset-0">Next</a>
     </div>
 </nav>
