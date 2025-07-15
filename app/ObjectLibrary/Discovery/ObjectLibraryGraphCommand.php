@@ -2,11 +2,13 @@
 
 namespace App\ObjectLibrary\Discovery;
 
+use App\ObjectLibrary\ConceptSummary;
 use App\ObjectLibrary\ObjectLibrary;
 use Tempest\Cache\Cache;
 use Tempest\Console\ConsoleCommand;
 use Tempest\Console\HasConsole;
 use Tempest\Console\Middleware\ConsoleExceptionMiddleware;
+use function Psl\Vec\map;
 use function Tempest\Support\Arr\map_iterable;
 
 final class ObjectLibraryGraphCommand
@@ -24,11 +26,12 @@ final class ObjectLibraryGraphCommand
     {
         $this->info('Warming up object library graph cache...');
 
+        /** @var list<ConceptSummary> $concepts */
         $concepts = $this->objectLibrary->listConcepts()->wait();
 
         (new CachedObjectLibraryGraphDiscovery(
             discovery: new PoolingObjectLibraryGraphDiscovery($this->objectLibrary),
             cache: $this->cache,
-        ))->discover(...map_iterable($concepts, fn ($concept) => $concept->iri));
+        ))->discover(...map($concepts, fn (ConceptSummary $concept) => $concept->iri));
     }
 }

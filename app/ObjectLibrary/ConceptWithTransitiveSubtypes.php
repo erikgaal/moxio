@@ -7,7 +7,7 @@ final readonly class ConceptWithTransitiveSubtypes
 {
     public function __construct(
         public Concept $concept,
-        /** @var list<Concept> */
+        /** @var list<ConceptSummary> */
         public array $transitiveSubtypes,
     ) { }
 }

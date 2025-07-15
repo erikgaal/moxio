@@ -12,6 +12,8 @@ use App\ObjectLibrary\ObjectLibrary;
 use Tempest\Http\Request;
 use Tempest\Router\Get;
 use Tempest\View\View;
+use function Psl\Type\int;
+use function Psl\Type\nullable;
 use function Tempest\Support\Arr\map_iterable;
 use function Tempest\view;
 
@@ -22,21 +24,22 @@ final readonly class ObjectTableView
     {
         $withTransitiveSubtypes = new ConceptsWithTransitiveSubtypes(new AsyncObjectLibraryGraphDiscovery($library));
 
+        /** @var list<ConceptSummary> $all */
         $all = $library->listConcepts()->wait();
 
         // Pagination
         $total = count($all);
         $perPage = 10;
-        $currentPage = intval($request->query['page'] ?? 1);
+        $currentPage = int()->coerce($request->query['page'] ?? 1);
         $items = array_slice($all, ($currentPage - 1) * $perPage, $perPage);
 
         $conceptsWithTransitiveSubtypes = $withTransitiveSubtypes->execute(map_iterable($items, fn(ConceptSummary $concept) => $concept->iri));
 
-        $concepts = Paginator::from(
+        $concepts = new Paginator(
             $conceptsWithTransitiveSubtypes,
+            total: $total,
             perPage: $perPage,
             currentPage: $currentPage,
-            total: $total,
         );
 
         return view('object-table.view.php',

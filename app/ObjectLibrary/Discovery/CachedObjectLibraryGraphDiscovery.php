@@ -21,6 +21,7 @@ final readonly class CachedObjectLibraryGraphDiscovery implements ObjectLibraryG
     {
         $key = 'object-library-graph-' . sha1(encode(map_iterable($concepts, fn(Iri $concept) => strval($concept))));
 
+        /** @var ObjectLibraryGraph */
         return $this->cache->resolve(
             key: $key,
             callback: fn () => $this->discovery->discover(...$concepts),

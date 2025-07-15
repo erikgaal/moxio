@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\ObjectLibrary;
 
-use function Tempest\Support\Arr\flat_map;
+use RuntimeException;
+use function Psl\Vec\flat_map;
 
 final readonly class ObjectLibraryGraph
 {
@@ -20,13 +21,13 @@ final readonly class ObjectLibraryGraph
         return $this->concepts;
     }
 
-    public function getConcept(Iri $iri): ?Concept
+    public function getConcept(Iri $iri): Concept
     {
-        return array_find($this->concepts, fn (Concept $concept) => $concept->iri == $iri);
+        return array_find($this->concepts, fn (Concept $concept) => $concept->iri == $iri) ?? throw new RuntimeException(sprintf('Concept with IRI "%s" not found in the graph.', $iri));
     }
 
     /**
-     * @return list<Concept>
+     * @return list<ConceptSummary>
      */
     public function getTransitiveSubtypes(Iri $concept): array
     {

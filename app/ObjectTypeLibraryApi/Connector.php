@@ -24,7 +24,7 @@ final class Connector extends \Saloon\Http\Connector
         private string $baseUrl = 'https://otl.prorail.nl/otl/api/rest/v1',
     ) {}
 
-    protected function defaultAuth(): ?Authenticator
+    protected function defaultAuth(): Authenticator
     {
         return new TokenAuthenticator($this->apiKey, 'ApiKey');
     }
@@ -34,8 +34,12 @@ final class Connector extends \Saloon\Http\Connector
         return $this->baseUrl;
     }
 
+    /**
+     * @return list<ConceptSummary>
+     */
     public function concepten(): array
     {
+        /** @var list<ConceptSummary> */
         return $this->send(new ListConcepten())->dto();
     }
 
@@ -46,6 +50,7 @@ final class Connector extends \Saloon\Http\Connector
 
     public function concept(string $iri): ConceptDetail
     {
+        /** @var ConceptDetail */
         return $this->send(new GetConcept($iri))->dto();
     }
 

@@ -13,8 +13,6 @@ final readonly class ConceptDetail
         public string $naam,
         public string $omschrijving,
         public string $type,
-        #[MapFrom('meta-eigenschappen')]
-        public array $metaEigenschappen,
         /** @var \App\ObjectTypeLibraryApi\VigerendeVersie\ConceptSummary[] */
         public array $supertypen,
         /** @var \App\ObjectTypeLibraryApi\VigerendeVersie\ConceptSummary[] */

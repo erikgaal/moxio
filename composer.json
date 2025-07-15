@@ -2,12 +2,15 @@
     "name": "tempest/app",
     "require": {
         "tempest/framework": "^1.0",
-        "saloonphp/saloon": "^3.14"
+        "saloonphp/saloon": "^3.14",
+        "azjezz/psl": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.2 || ^11.5.15",
         "symfony/var-dumper": "^7.2.3",
-        "carthage-software/mago": "^0.20.4"
+        "carthage-software/mago": "^0.20.4",
+        "phpstan/phpstan": "^2.1",
+        "php-standard-library/phpstan-extension": "^2.0"
     },
     "autoload": {
         "psr-4": {

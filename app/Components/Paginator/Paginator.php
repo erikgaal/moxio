@@ -6,28 +6,26 @@ namespace App\Components\Paginator;
 use IteratorAggregate;
 use Traversable;
 
+/**
+ * @template TKey of array-key
+ * @template TValue
+ *
+ * @implements IteratorAggregate<TKey, TValue>
+ */
 final readonly class Paginator implements IteratorAggregate
 {
+    /**
+     * @param array<TKey, TValue> $items
+     * @param int $total
+     * @param int $perPage
+     * @param int|null $currentPage
+     */
     public function __construct(
-        private iterable $items,
+        private array $items,
         private int $total,
         private int $perPage,
         private ?int $currentPage = null,
     ) {
-    }
-
-    public static function from(
-        iterable $listConcepts,
-        int $perPage = 10,
-        ?int $currentPage = null,
-        ?int $total = null,
-    ) {
-        return new self(
-            items: $listConcepts,
-            total: $total ?? iterator_count($listConcepts),
-            perPage: $perPage,
-            currentPage: $currentPage,
-        );
     }
 
     public function getPageFrom(): int
@@ -78,6 +76,9 @@ final readonly class Paginator implements IteratorAggregate
         return (int) ceil($this->total / $this->perPage);
     }
 
+    /**
+     * @return Traversable<TKey, TValue>
+     */
     public function getIterator(): Traversable
     {
         return new \ArrayIterator($this->items);

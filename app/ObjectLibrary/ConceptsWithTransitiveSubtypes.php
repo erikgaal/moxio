@@ -5,8 +5,7 @@ namespace App\ObjectLibrary;
 
 use App\ObjectLibrary\Discovery\ObjectLibraryGraphDiscovery;
 use Tempest\Container\Autowire;
-use function Tempest\Support\Arr\map_iterable;
-use function Tempest\Support\Arr\values;
+use function Psl\Vec\map;
 
 #[Autowire]
 final class ConceptsWithTransitiveSubtypes
@@ -23,6 +22,6 @@ final class ConceptsWithTransitiveSubtypes
     {
         $graph = $this->graphDiscovery->discover(...$concepts);
 
-        return values(map_iterable($concepts, fn (Iri $concept) => new ConceptWithTransitiveSubtypes($graph->getConcept($concept), $graph->getTransitiveSubtypes($concept))));
+        return map($concepts, fn (Iri $concept) => new ConceptWithTransitiveSubtypes($graph->getConcept($concept), $graph->getTransitiveSubtypes($concept)));
     }
 }

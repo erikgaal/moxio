@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace App\ObjectLibrary\Discovery;
 
+use App\ObjectLibrary\Concept;
 use App\ObjectLibrary\Iri;
 use App\ObjectLibrary\ObjectLibrary;
 use App\ObjectLibrary\ObjectLibraryGraph;
+use function Psl\Vec\values;
 
 final readonly class SyncObjectLibraryGraphDiscovery implements ObjectLibraryGraphDiscovery
 {
@@ -20,6 +22,7 @@ final readonly class SyncObjectLibraryGraphDiscovery implements ObjectLibraryGra
 
         while (count($toDiscover) > 0)
         {
+            /** @var Concept $concept */
             $concept = $this->objectLibrary->getConcept(array_shift($toDiscover))->wait();
 
             $discovered[(string) $concept->iri] = $concept;
@@ -39,6 +42,6 @@ final readonly class SyncObjectLibraryGraphDiscovery implements ObjectLibraryGra
             }
         }
 
-        return new ObjectLibraryGraph($discovered);
+        return new ObjectLibraryGraph(values($discovered));
     }
 }

@@ -10,6 +10,9 @@ use App\ObjectLibrary\ObjectLibrary;
 use App\ObjectTypeLibraryApi;
 use GuzzleHttp\Promise\PromiseInterface;
 use Tempest\Container\Autowire;
+use function Psl\Type\instance_of;
+use function Psl\Type\vec;
+use function Psl\Vec\map;
 use function Tempest\Support\Arr\map_iterable;
 
 #[Autowire]
@@ -21,7 +24,7 @@ final readonly class ObjectLibraryApiAdapter implements ObjectLibrary
 
     public function listConcepts(): PromiseInterface
     {
-        return $this->connector->conceptenAsync()->then(fn (array $concepten) => map_iterable($concepten, $this->mapConceptSummary(...)));
+        return $this->connector->conceptenAsync()->then(fn (array $concepten) => map(vec(instance_of(ObjectTypeLibraryApi\VigerendeVersie\ConceptSummary::class))->assert($concepten), $this->mapConceptSummary(...)));
     }
 
     public function getConcept(Iri $iri): PromiseInterface
@@ -30,7 +33,7 @@ final readonly class ObjectLibraryApiAdapter implements ObjectLibrary
             ->then(fn(ObjectTypeLibraryApi\VigerendeVersie\ConceptDetail $concept) => new Concept(
                 iri: Iri::from($concept->iri),
                 naam: $concept->naam,
-                subtypen: map_iterable($concept->subtypen, self::mapConceptSummary(...)),
+                subtypen: map($concept->subtypen, self::mapConceptSummary(...)),
             ));
     }
 

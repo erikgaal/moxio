@@ -11,7 +11,7 @@ final readonly class Iri implements Stringable
         private string $value,
     ) {}
 
-    public static function from(string $value)
+    public static function from(string $value): self
     {
         return new self($value);
     }

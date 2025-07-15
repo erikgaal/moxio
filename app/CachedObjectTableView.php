@@ -15,6 +15,10 @@ use Tempest\Cache\Cache;
 use Tempest\Http\Request;
 use Tempest\Router\Get;
 use Tempest\View\View;
+use function Psl\Type\int;
+use function Psl\Type\nullable;
+use function Psl\Type\optional;
+use function Psl\Vec\sort_by;
 use function Tempest\Support\Arr\map_iterable;
 use function Tempest\Support\Arr\sort_by_callback;
 use function Tempest\view;
@@ -26,22 +30,23 @@ final readonly class CachedObjectTableView
     {
         $withTransitiveSubtypes = new ConceptsWithTransitiveSubtypes(new CachedObjectLibraryGraphDiscovery(new AsyncObjectLibraryGraphDiscovery($library), $cache));
 
+        /** @var list<ConceptSummary> $all */
         $all = $library->listConcepts()->wait();
 
         // Pagination
         $total = count($all);
         $perPage = 50;
-        $currentPage = intval($request->query['page'] ?? 1);
+        $currentPage = int()->coerce($request->query['page'] ?? 1);
 
         $conceptsWithTransitiveSubtypes = $withTransitiveSubtypes->execute(map_iterable($all, fn(ConceptSummary $concept) => $concept->iri));
 
-        $conceptsWithTransitiveSubtypes = sort_by_callback($conceptsWithTransitiveSubtypes, fn (ConceptWithTransitiveSubtypes $left, $right) => count($right->transitiveSubtypes) <=> count($left->transitiveSubtypes));
+        $conceptsWithTransitiveSubtypes = sort_by($conceptsWithTransitiveSubtypes, fn (ConceptWithTransitiveSubtypes $concept) => -count($concept->transitiveSubtypes));
 
-        $concepts = Paginator::from(
+        $concepts = new Paginator(
             array_slice($conceptsWithTransitiveSubtypes, ($currentPage - 1) * $perPage, $perPage),
+            total: $total,
             perPage: $perPage,
             currentPage: $currentPage,
-            total: $total,
         );
 
         return view('object-table.view.php',

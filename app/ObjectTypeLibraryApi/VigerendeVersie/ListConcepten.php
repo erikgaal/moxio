@@ -17,8 +17,12 @@ final class ListConcepten extends Request
         return '/vigerende-versie/concepten';
     }
 
+    /**
+     * @return list<ConceptSummary>
+     */
     public function createDtoFromResponse(Response $response): array
     {
+        /** @var list<ConceptSummary> */
         return make(ConceptSummary::class)->collection()->from($response->json('data'));
     }
 }

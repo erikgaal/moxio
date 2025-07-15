@@ -8,6 +8,7 @@ use App\ObjectLibrary\Iri;
 use App\ObjectLibrary\ObjectLibrary;
 use App\ObjectLibrary\ObjectLibraryGraph;
 use GuzzleHttp\Promise\Utils;
+use function Psl\Vec\values;
 
 final readonly class AsyncObjectLibraryGraphDiscovery implements ObjectLibraryGraphDiscovery
 {
@@ -22,7 +23,7 @@ final readonly class AsyncObjectLibraryGraphDiscovery implements ObjectLibraryGr
 
         $promises = [];
 
-        $enqueue = function (Iri $iri) use (&$discovered, &$toDiscover, &$promises, &$enqueue) {
+        $enqueue = function (Iri $iri) use (&$discovered, &$promises, &$enqueue) {
             $iriKey = (string) $iri;
 
             if (isset($discovered[$iriKey])) {
@@ -34,7 +35,7 @@ final readonly class AsyncObjectLibraryGraphDiscovery implements ObjectLibraryGr
             }
 
             $promises[$iriKey] = $this->objectLibrary->getConcept($iri)
-                ->then(function (Concept $concept) use (&$discovered, &$toDiscover, &$enqueue) {
+                ->then(function (Concept $concept) use (&$discovered, &$enqueue) {
                     $iriStr = (string) $concept->iri;
 
                     $discovered[$iriStr] = $concept;
@@ -55,6 +56,6 @@ final readonly class AsyncObjectLibraryGraphDiscovery implements ObjectLibraryGr
 
         Utils::all($promises)->wait();
 
-        return new ObjectLibraryGraph($discovered);
+        return new ObjectLibraryGraph(values($discovered));
     }
 }
